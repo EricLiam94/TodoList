@@ -1,0 +1,15 @@
+.menu {
+  font-size: 18px;
+  .item {
+    padding: 5px 10px;
+    transition: 0.4s;
+    user-select: none;
+    display: inline-block;
+    margin-right: 100px;
+    cursor: pointer;
+    &:hover {
+      transform: scale(1.2);
+      color: grey;
+    }
+  }
+}

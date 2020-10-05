@@ -1,0 +1,39 @@
+.container {
+  background-color: #212121;
+  color: white;
+  height: calc(100vh - 56px);
+  width: 100vw;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  padding-bottom: 10%;
+  .banner {
+    font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
+    text-align: left;
+    h1 {
+      font-size: 48px;
+    }
+    .desc {
+      margin: 50px 0;
+    }
+  }
+
+  .circleContainer {
+    width: 230px;
+    height: 230px;
+    cursor: grab;
+    .circle {
+      border-radius: 30px;
+      width: 100%;
+      background: black;
+      height: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      svg {
+        width: 80%;
+        height: 80%;
+      }
+    }
+  }
+}
