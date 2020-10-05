@@ -8,7 +8,7 @@ import {
 import { Provider } from "react-redux"
 
 import configureStore from "./store"
-
+import ProtectedRoute from "./Utilis/ProtectedRoute"
 import Header from "./Components/Header"
 import Home from "./Components/Home"
 import DashBoard from "./Components/Dashboard"
@@ -21,9 +21,9 @@ function App() {
         <div className="App">
           <Header />
           <Switch>
-            <Route path="/dashboard">
+            <ProtectedRoute path="/dashboard">
               <DashBoard />
-            </Route>
+            </ProtectedRoute>
             <Route path="/about">
               <About />
             </Route>

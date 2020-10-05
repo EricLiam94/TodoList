@@ -1,10 +1,10 @@
 
-import React, { useState, useEffect } from 'react'
+import React, { useEffect } from 'react'
 import style from "./index.module.scss"
-import { signInWithGoogle, auth } from "../../Firebase"
+
 import { motion, AnimatePresence } from "framer-motion"
 import firebase from "firebase"
-import { login, setUser } from "../../actions/auth"
+import { login, setUser, logout } from "../../actions/auth"
 import { useDispatch, useSelector } from "react-redux"
 import { withRouter, Link } from "react-router-dom"
 const Header = ({ history }) => {
@@ -13,13 +13,14 @@ const Header = ({ history }) => {
     const dispatch = useDispatch()
     useEffect(() => {
         firebase.auth().onAuthStateChanged((user) => {
+            console.log(user)
             dispatch(setUser(user))
         })
-    }, [])
+    })
 
-    const logout = async (e) => {
+    const logoutHandler = async (e) => {
         e.preventDefault()
-        auth.signOut()
+        dispatch(logout())
     }
     return (
         <div style={{
@@ -35,13 +36,7 @@ const Header = ({ history }) => {
             <div className={style.menu}>
                 <AnimatePresence exitBeforeEnter initial={false}>
                     {currentUser ?
-                        <motion.span className={style.item}
-                            initial={{ y: -50, opacity: 0 }}
-                            animate={{ y: 0, opacity: 1 }}
-                            exit={{ y: 50, opacity: 0 }}
-                            key="out"
-                            onClick={logout}
-                        >Log out </motion.span> :
+                        <UserItem logoutHandler={logoutHandler} imgSrc={currentUser.photoURL} /> :
                         <motion.span
                             key="in"
                             initial={{ y: -50, opacity: 0 }}
@@ -59,6 +54,23 @@ const Header = ({ history }) => {
 
 
         </div>
+    )
+}
+
+
+const UserItem = ({ logoutHandler, imgSrc }) => {
+    return (
+        <motion.div initial={{ y: -50, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            exit={{ y: 50, opacity: 0 }}
+            className={style.userItem}>
+            <img src={imgSrc} style={{ width: "30px", height: "30px", borderRadius: "50%" }} alt="user img" />
+            <span className={style.item}
+
+
+                onClick={logoutHandler}
+            >Log out </span>
+        </motion.div>
     )
 }
 

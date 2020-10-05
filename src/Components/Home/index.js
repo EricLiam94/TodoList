@@ -1,8 +1,13 @@
-import React from 'react'
+import React, { useEffect, useRef } from 'react'
 import style from "./home.module.scss"
 import { motion, useTransform, useMotionValue } from "framer-motion";
 import Button from '@material-ui/core/Button';
-const Home = () => {
+import { useSelector } from "react-redux"
+import { withRouter } from "react-router-dom"
+
+
+const Home = ({ history }) => {
+    const isLoggin = useSelector(state => state.auth.isLoggin)
     const variants = {
         hidden: { opacity: 0, scaleY: 0, y: -20 },
         visible: {
@@ -12,13 +17,18 @@ const Home = () => {
             transition: { delay: 1 }
         }
     }
+
+    const handleClick = (e) => [
+        history.push("/dashboard")
+    ]
+
     return (
         <div className={style.container}>
             <motion.div
                 variants={variants}
                 initial="hidden"
                 animate="visible"
-                className={style.banner}>
+                className={style.banner} >
                 <motion.h1
                     variants={variants}
                 >Welcome to TODO  List</motion.h1>
@@ -28,11 +38,18 @@ const Home = () => {
                     A simple Todo List app helping you for better performance
                 </motion.div>
                 <Button
-
                     variant="contained" color="primary">
                     Learn More
                 </Button>
-            </motion.div>
+
+                {isLoggin && <Button
+                    style={{ marginLeft: "200px" }}
+                    onClick={handleClick}
+                    variant="contained" >
+                    Try out
+                    </Button>}
+
+            </motion.div >
 
 
             <CircleAnimate />
@@ -43,6 +60,7 @@ const Home = () => {
 
 
 const CircleAnimate = () => {
+    const ref = useRef()
     const x = useMotionValue(0);
     let input = [-300, 0]
     const tickPath = useTransform(x, input, [0, 1]);
@@ -54,11 +72,27 @@ const CircleAnimate = () => {
         "rgb(68, 0, 255)",
         "rgb(154, 215, 0)"
     ]);
+    useEffect(() => {
+
+        let { left, top } = ref.current.getBoundingClientRect()
+
+        const unsub = window.addEventListener("mousemove", function (e) {
+            if (ref.current) {
+                var x = left - e.clientX
+                var y = e.clientY - top
+                ref.current.style.transform = `rotateX(${-x / 18}deg) rotateY(${y / 9}deg)`
+            }
+        });
+        return unsub
+    }, [])
+
     return (
         <motion.div
+            ref={ref}
             className={style.circleContainer}
-            initial={{ x: -300 }}
             style={{ x }}
+            initial={{ x: -300 }}
+
             animate={{ x: 0 }}
             drag
             dragConstraints={{ left: 0, right: 0, top: 0, bottom: 0 }}
@@ -88,6 +122,7 @@ const CircleAnimate = () => {
 
                 <svg viewBox="0 0 50 50">
                     <motion.path
+
                         fill="none"
                         strokeWidth="2"
                         stroke={circleColor}
@@ -107,4 +142,4 @@ const CircleAnimate = () => {
         </motion.div>)
 }
 
-export default Home
+export default withRouter(Home)

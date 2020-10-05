@@ -12,8 +12,7 @@ export default (state = initialState, action) => {
     switch (action.type) {
         case LOGIN:
             return { ...state, loading: true, error: null }
-        case LOGIN_SUCCESS:
-            return { ...state, loading: false, user: action.payload.user, isLoggin: true, error: null }
+
         case LOGIN_FAIL:
             return { ...state, loading: false, user: null, isLoggin: false, error: action.payload.error }
         case LOGOUT:
@@ -24,7 +23,9 @@ export default (state = initialState, action) => {
                 error: null
             }
         case USER_CHANGE:
-            return { ...state, user: action.payload }
+
+            let isLoggin = action.payload ? true : false
+            return { ...state, user: action.payload, isLoggin }
         default:
             return state
     }

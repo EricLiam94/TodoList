@@ -1,5 +1,6 @@
 .menu {
   font-size: 18px;
+  display: flex;
   .item {
     padding: 5px 10px;
     transition: 0.4s;
@@ -11,5 +12,10 @@
       transform: scale(1.2);
       color: grey;
     }
+  }
+  .userItem {
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 }
