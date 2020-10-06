@@ -1,5 +1,4 @@
 .container {
-  background-color: #212121;
   color: white;
   height: calc(100vh - 56px);
   width: 100vw;
@@ -25,10 +24,11 @@
 
     cursor: grab;
     .circle {
-      box-shadow: rgb(46, 46, 46) 10px -5px 50px 2px;
+      background: #f0efef;
+
       border-radius: 30px;
       width: 100%;
-      background: black;
+
       height: 100%;
       display: flex;
       justify-content: center;

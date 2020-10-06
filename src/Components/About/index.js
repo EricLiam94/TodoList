@@ -1,10 +1,15 @@
 import React from 'react'
-
+import { motion } from "framer-motion"
 const About = () => {
     return (
-        <div style={{ background: "grey", height: "100vh" }}>
+        <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+
+            style={{ background: "grey", height: "100vh" }}>
             <h1>About</h1>
-        </div>
+        </motion.div>
     )
 }
 

@@ -1,15 +1,16 @@
 import React from 'react'
-import { Route, Redirect } from "react-router-dom"
-import { useSelector } from "react-redux"
-const ProtectedRoute = ({ path, children, ...rest }) => {
-    const isLoggin = useSelector(state => state.auth.isLoggin)
+import { Route } from "react-router-dom"
+import LoginPage from "../Components/LoginPage"
+// import { useSelector } from "react-redux"
+import UseAuth from "../Hooks/UseAuth"
+const ProtectedRoute = ({ path, children, render }) => {
 
-    if (!isLoggin) return <Redirect to="/" />
     return (
-        <Route path={path} rest >
+        <Route path={path} render={() => UseAuth.isLoggin ? render : <LoginPage />} >
             {children}
         </Route>
     )
 }
+
 
 export default ProtectedRoute

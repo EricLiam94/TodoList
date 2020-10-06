@@ -1,5 +1,5 @@
 
-import { LOGIN, LOGIN_SUCCESS, LOGIN_FAIL, LOGOUT, USER_CHANGE } from "../actions/types"
+import { LOGIN, LOGIN_FAIL, LOGOUT, USER_CHANGE } from "../actions/types"
 
 const initialState = {
     user: null,

@@ -1,9 +1,32 @@
 import React, { useEffect, useRef } from 'react'
 import style from "./home.module.scss"
-import { motion, useTransform, useMotionValue } from "framer-motion";
+import { motion, useTransform, useMotionValue, AnimatePresence } from "framer-motion";
 import Button from '@material-ui/core/Button';
 import { useSelector } from "react-redux"
 import { withRouter } from "react-router-dom"
+
+const pageVariants = {
+    initial: {
+        opacity: 0,
+
+        scale: 0.8
+    },
+    in: {
+        opacity: 1,
+
+        scale: 1
+    },
+    out: {
+        opacity: 0,
+
+        scale: 1.2
+    }
+};
+const pageTransition = {
+    type: "tween",
+    ease: "anticipate",
+    duration: 0.7
+};
 
 
 const Home = ({ history }) => {
@@ -18,12 +41,18 @@ const Home = ({ history }) => {
         }
     }
 
-    const handleClick = (e) => [
+    const handleClick = (e) => {
         history.push("/dashboard")
-    ]
+    }
 
     return (
-        <div className={style.container}>
+        <motion.div
+            initial="initial"
+            animate="in"
+            exit="out"
+            variants={pageVariants}
+            transition={pageTransition}
+            className={style.container}>
             <motion.div
                 variants={variants}
                 initial="hidden"
@@ -41,20 +70,29 @@ const Home = ({ history }) => {
                     variant="contained" color="primary">
                     Learn More
                 </Button>
+                <AnimatePresence>
+                    {isLoggin && <motion.span
+                        style={{ display: "inline-block", marginLeft: "200px" }}
+                        initial={{ opacity: 0, y: 50 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: 0.5 }}
+                        exit={{ opacity: 0 }}
+                    ><Button
 
-                {isLoggin && <Button
-                    style={{ marginLeft: "200px" }}
-                    onClick={handleClick}
-                    variant="contained" >
-                    Try out
-                    </Button>}
+                        onClick={handleClick}
+                        variant="contained" >
+                            Try out
+                    </Button>
+                    </motion.span>
+                    }
 
+                </AnimatePresence>
             </motion.div >
 
 
             <CircleAnimate />
 
-        </div >
+        </motion.div >
     )
 }
 
@@ -80,7 +118,7 @@ const CircleAnimate = () => {
             if (ref.current) {
                 var x = left - e.clientX
                 var y = e.clientY - top
-                ref.current.style.transform = `rotateX(${-x / 18}deg) rotateY(${y / 9}deg)`
+                ref.current.style.transform = `rotateX(${-y / 8}deg) rotateY(${-x / 18}deg)`
             }
         });
         return unsub

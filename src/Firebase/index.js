@@ -1,4 +1,4 @@
-import * as firebase from "firebase/app";
+import firebase from 'firebase/app';
 import "firebase/auth";
 const config = {
     apiKey: "AIzaSyChmkMyPnXz6pgLjGs-IYXfBgcokD8jED4",
@@ -25,7 +25,6 @@ export const signInWithGoogle = () => auth.setPersistence(firebase.auth.Auth.Per
     })
     .catch(function (error) {
         // Handle Errors here.
-        var errorCode = error.code;
-        var errorMessage = error.message;
+        console.log(error)
     });
 
