@@ -70,79 +70,81 @@ const Dashboard = () => {
 
     return (
         <AnimateSharedLayout>
-            <motion.div
-                variants={variants}
-                initial="hidden"
-                animate="show"
-                exit="hidden"
-
-                className={style.container}>
-
-
+            <AnimatePresence >
                 <motion.div
-                    variants={itemAni}
-                    className={style.inputField}  >
-                    <h1 style={{ flexGrow: 1 }}>Board</h1>
-                    <div style={{ flexGrow: 3 }} >
-                        <input className={style.searchBar} placeholder="Search here" type="text" />
-                        <Button
-                            style={{ marginLeft: "-100px" }}
-                            variant="contained"
-                            color="primary">
-                            Search </Button>
-                    </div>
+                    variants={variants}
+                    initial="hidden"
+                    animate="show"
+                    exit="hidden"
 
-                    <motion.svg
-                        onClick={toggle}
-                        width={30} height={30}
+                    className={style.container}>
 
-                        className={style.add}
-                        stroke="white" strokeWidth="5" fill="#4CAF50"
-                        viewBox="0 0 60 60">
-                        <circle cx="30" cy="30" r="25" stroke="none"  ></circle>
-                        <path d="M 30 15 V 30 45  "></path>
-                        <path d="M 15 30 H 45 15 " ></path>
-                    </motion.svg>
-                </motion.div>
-                <motion.div
-                    variants={itemAni}
-                    className={style.main}>
-                    <div className={style.mainContainer}>
-                        <h2> Todo</h2>
-                        <div className={style.content}>
-                            {list.map(item =>
-                                <Card title={item.title}
-                                    time={item.time}
-                                    key={item.id} priority={item.priority}
-                                    tags={item.tags} deleteItem={() => deleteItem(item.id)} />
-                            )}
+
+                    <motion.div
+                        variants={itemAni}
+                        className={style.inputField}  >
+                        <h1 style={{ flexGrow: 1 }}>Board</h1>
+                        <div style={{ flexGrow: 3 }} >
+                            <input className={style.searchBar} placeholder="Search here" type="text" />
+                            <Button
+                                style={{ marginLeft: "-100px" }}
+                                variant="contained"
+                                color="primary">
+                                Search </Button>
                         </div>
-                    </div>
-                    <div className={style.mainContainer} >
-                        <h2> Doing</h2>
-                        <div className={style.content}>
 
-                        </div>
-                    </div>
-                    <div className={style.mainContainer} >
-                        <h2> Done</h2>
-                        <div className={style.content}>
+                        <motion.svg
+                            onClick={toggle}
+                            width={30} height={30}
 
+                            className={style.add}
+                            stroke="white" strokeWidth="5" fill="#4CAF50"
+                            viewBox="0 0 60 60">
+                            <circle cx="30" cy="30" r="25" stroke="none"  ></circle>
+                            <path d="M 30 15 V 30 45  "></path>
+                            <path d="M 15 30 H 45 15 " ></path>
+                        </motion.svg>
+                    </motion.div>
+                    <motion.div
+                        variants={itemAni}
+                        className={style.main}>
+                        <div className={style.mainContainer}>
+                            <h2> Todo</h2>
+                            <div className={style.content}>
+                                {list.map(item =>
+                                    <Card title={item.title}
+                                        time={item.time}
+                                        key={item.id} priority={item.priority}
+                                        tags={item.tags} deleteItem={() => deleteItem(item.id)} />
+                                )}
+                            </div>
                         </div>
-                    </div>
-                    <div className={style.mainContainer} >
-                        <h2> Backlog</h2>
-                        <div className={style.content}>
+                        <div className={style.mainContainer} >
+                            <h2> Doing</h2>
+                            <div className={style.content}>
 
+                            </div>
                         </div>
-                    </div>
-                </motion.div>
-                <AnimatePresence >
+                        <div className={style.mainContainer} >
+                            <h2> Done</h2>
+                            <div className={style.content}>
+
+                            </div>
+                        </div>
+                        <div className={style.mainContainer} >
+                            <h2> Backlog</h2>
+                            <div className={style.content}>
+
+                            </div>
+                        </div>
+                    </motion.div>
+
                     {isShow ? <NewItem toggle={toggle} /> : null}
 
-                </AnimatePresence>
 
-            </motion.div >
+
+                </motion.div >
+            </AnimatePresence>
             <ToastContainer />
         </AnimateSharedLayout>
     )
