@@ -29,7 +29,7 @@ const NewItem = ({ toggle }) => {
                 }
 
             )
-            .catch(() => toast("Something wrong during creating new Item!"))
+            .catch((e) => { toast("Something wrong during creating new Item!"); console.log(e) })
     }
 
     const handleTags = (e) => {
