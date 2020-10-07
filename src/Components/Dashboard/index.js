@@ -138,7 +138,7 @@ const Dashboard = () => {
                     </div>
                 </motion.div>
                 <AnimatePresence >
-                    {isShow && <NewItem toggle={toggle} />}
+                    {isShow ? <NewItem toggle={toggle} /> : null}
 
                 </AnimatePresence>
 
