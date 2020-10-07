@@ -5,7 +5,7 @@ import style from "./dashboard.module.scss"
 
 const Priority = ({ selected, setSelected }) => {
     return (
-        // <AnimateSharedLayout>
+
         <ul className={style.ul}>
             {Object.keys(colorMap).map(p => (
                 <Item
