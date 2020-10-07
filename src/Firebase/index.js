@@ -14,6 +14,8 @@ firebase.initializeApp(config);
 const googleProvider = new firebase.auth.GoogleAuthProvider()
 export const auth = firebase.auth();
 
+export const db = firebase.database();
+
 export const signInWithGoogle = () => auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL)
     .then(function () {
         // Existing and future Auth states are now persisted in the current

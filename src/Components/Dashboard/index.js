@@ -1,13 +1,14 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useSelector } from "react-redux"
-import { motion, AnimatePresence } from "framer-motion"
+import { motion, AnimatePresence, AnimateSharedLayout } from "framer-motion"
+import { auth, db } from "../../Firebase"
 import LoginPage from "../LoginPage"
 import style from "./dashboard.module.scss"
 import Button from '@material-ui/core/Button';
 import Card from "./Card"
 import NewItem from "./NewItem"
 
-
+import { ToastContainer } from "react-toastify"
 const variants = {
     hidden: { opacity: 0 },
     show: {
@@ -29,92 +30,121 @@ const itemAni = {
 }
 
 const Dashboard = () => {
-    const auth = useSelector(state => state.auth.isLoggin)
+    const isLoggin = useSelector(state => state.auth.isLoggin)
 
     const [isShow, setShow] = useState(false)
-    if (!auth) return <LoginPage></LoginPage>
+    const [list, setList] = useState([])
+    const deleteItem = (id) => {
+        console.log(id)
+        db.ref(`list/${auth.currentUser.uid}/todo/${id}`).remove();
+    }
+
+    useEffect(() => {
+        const temp = () => {
+            if (auth.currentUser) {
+                db.ref(`list/${auth.currentUser.uid}/todo/`)
+                    .on("value", snapshot => {
+                        let temp = []
+                        snapshot.forEach(snap => {
+                            temp.push(snap.val())
+                        });
+                        setList(temp)
+                    });
+            }
+
+        }
+
+        temp()
+
+
+    }, [isLoggin])
+
+
+    if (!isLoggin) return <LoginPage></LoginPage>
     const toggle = (e) => {
         e.preventDefault()
         setShow(!isShow)
     }
 
+
+
     return (
-
-        <motion.div
-            variants={variants}
-            initial="hidden"
-            animate="show"
-            exit="hidden"
-
-            className={style.container}>
-
-
+        <AnimateSharedLayout>
             <motion.div
-                variants={itemAni}
-                className={style.inputField}  >
-                <h1 style={{ flexGrow: 1 }}>Board</h1>
-                <div style={{ flexGrow: 3 }} >
-                    <input className={style.searchBar} placeholder="Search here" type="text" />
-                    <Button
-                        style={{ marginLeft: "-100px" }}
-                        variant="contained"
-                        color="primary">
-                        Search </Button>
-                </div>
+                variants={variants}
+                initial="hidden"
+                animate="show"
+                exit="hidden"
 
-                <motion.svg
-                    onClick={toggle}
-                    width={30} height={30}
-                    className={style.add}
-                    stroke="white" strokeWidth="5" fill="#4CAF50"
-                    viewBox="0 0 60 60">
-                    <circle cx="30" cy="30" r="25" stroke="none"  ></circle>
-                    <path d="M 30 15 V 30 45  "></path>
-                    <path d="M 15 30 H 45 15 " ></path>
-                </motion.svg>
-            </motion.div>
-            <motion.div
-                variants={itemAni}
-                className={style.main}>
-                <div className={style.mainContainer}>
-                    <h2> Todo</h2>
-                    <div className={style.content}>
-                        <Card title="abc" time="2020-10-15" priority="medium" tags={["abc", "bcd", "qwe"]} />
-                        <Card title="abc" time="2020-10-15" priority="low" tags={["abc", "bcd", "qwe"]} />
+                className={style.container}>
 
+
+                <motion.div
+                    variants={itemAni}
+                    className={style.inputField}  >
+                    <h1 style={{ flexGrow: 1 }}>Board</h1>
+                    <div style={{ flexGrow: 3 }} >
+                        <input className={style.searchBar} placeholder="Search here" type="text" />
+                        <Button
+                            style={{ marginLeft: "-100px" }}
+                            variant="contained"
+                            color="primary">
+                            Search </Button>
                     </div>
-                </div>
-                <div className={style.mainContainer} >
-                    <h2> Doing</h2>
-                    <div className={style.content}>
-                        <Card title="abc" time="2020-10-15" tags={["abc", "bcd", "qwe"]} />
-                        <Card title="abc" time="2020-10-15" priority="high" tags={["abc", "bcd", "qwe"]} />
 
+                    <motion.svg
+                        onClick={toggle}
+                        width={30} height={30}
+
+                        className={style.add}
+                        stroke="white" strokeWidth="5" fill="#4CAF50"
+                        viewBox="0 0 60 60">
+                        <circle cx="30" cy="30" r="25" stroke="none"  ></circle>
+                        <path d="M 30 15 V 30 45  "></path>
+                        <path d="M 15 30 H 45 15 " ></path>
+                    </motion.svg>
+                </motion.div>
+                <motion.div
+                    variants={itemAni}
+                    className={style.main}>
+                    <div className={style.mainContainer}>
+                        <h2> Todo</h2>
+                        <div className={style.content}>
+                            {list.map(item =>
+                                <Card title={item.title}
+                                    time={item.time}
+                                    key={item.id} priority={item.priority}
+                                    tags={item.tags} deleteItem={() => deleteItem(item.id)} />
+                            )}
+                        </div>
                     </div>
-                </div>
-                <div className={style.mainContainer} >
-                    <h2> Done</h2>
-                    <div className={style.content}>
-                        <Card title="abc" time="2020-10-15" priority="high" tags={["Social", "Life", "Work"]} />
-                        <Card title="abc" time="2020-10-15" priority="high" tags={["Social", "Life", "Work"]} />
-                        <Card title="abc" time="2020-10-15" priority="high" tags={["Social", "Life", "Work"]} />
-                        <Card title="abc" time="2020-10-15" priority="high" tags={["Social", "Life", "Work"]} />
+                    <div className={style.mainContainer} >
+                        <h2> Doing</h2>
+                        <div className={style.content}>
+
+                        </div>
                     </div>
-                </div>
-                <div className={style.mainContainer} >
-                    <h2> Backlog</h2>
-                    <div className={style.content}>  <Card title="abc" time="2020-10-15" priority="high" tags={["abc", "bcd", "qwe"]} />
-                        <Card title="abc" time="2020-10-15" priority="high" tags={["abc", "bcd", "qwe"]} />
+                    <div className={style.mainContainer} >
+                        <h2> Done</h2>
+                        <div className={style.content}>
+
+                        </div>
                     </div>
-                </div>
-            </motion.div>
-            <AnimatePresence >
-                {isShow && <NewItem toggle={toggle} />}
+                    <div className={style.mainContainer} >
+                        <h2> Backlog</h2>
+                        <div className={style.content}>
 
-            </AnimatePresence>
+                        </div>
+                    </div>
+                </motion.div>
+                <AnimatePresence >
+                    {isShow && <NewItem toggle={toggle} />}
 
-        </motion.div >
+                </AnimatePresence>
 
+            </motion.div >
+            <ToastContainer />
+        </AnimateSharedLayout>
     )
 }
 
