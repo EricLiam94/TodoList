@@ -67,7 +67,9 @@ const Home = ({ history }) => {
                     A simple Todo List app helping you for better performance
                 </motion.div>
                 <Button
-                    variant="contained" color="primary">
+                    variant="contained"
+                    onClick={() => history.push("/about")}
+                    color="primary">
                     Learn More
                 </Button>
                 <AnimatePresence>

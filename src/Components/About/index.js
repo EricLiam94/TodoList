@@ -40,7 +40,8 @@ const About = () => {
             >
                 <h4> This to do list is developed by eric from scratch. <br></br>
             You can drag and drop to manipulate your tasks as will.  <br></br>
-            Searching is enabled for convinence purpose  </h4>
+            Searching is enabled for convinence purpose.  <br></br>
+            Currently only google account is accepted.  </h4>
             </motion.div>
             <motion.div
                 variants={childAnimate}
