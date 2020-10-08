@@ -1,7 +1,6 @@
 import React, { useRef } from 'react'
 import style from "./dashboard.module.scss"
 
-import { AnimatePresence } from "framer-motion"
 import Card from "./Card"
 const CardContainer = ({ list, deleteItem, type }) => {
     const ref = useRef()
