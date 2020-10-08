@@ -1,5 +1,7 @@
 import React, { useRef } from 'react'
 import style from "./dashboard.module.scss"
+
+import { AnimatePresence } from "framer-motion"
 import Card from "./Card"
 const CardContainer = ({ list, deleteItem, type }) => {
     const ref = useRef()
@@ -8,6 +10,7 @@ const CardContainer = ({ list, deleteItem, type }) => {
         <div className={style.mainContainer}
             ref={ref}>
             <h2 style={{ textTransform: "capitalize" }}> {type}</h2>
+
             <div className={style.content}>
                 {list.map(item =>
                     <Card
@@ -18,6 +21,7 @@ const CardContainer = ({ list, deleteItem, type }) => {
                         deleteItem={() => deleteItem(type, item.id)} />
                 )}
             </div>
+
         </div>
     )
 }

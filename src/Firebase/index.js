@@ -1,14 +1,16 @@
 import firebase from 'firebase/app';
 import "firebase/auth";
+const dotenv = require("dotenv")
+dotenv.config()
 const config = {
-    apiKey: "AIzaSyChmkMyPnXz6pgLjGs-IYXfBgcokD8jED4",
-    authDomain: "todo-92284.firebaseapp.com",
-    databaseURL: "https://todo-92284.firebaseio.com",
-    projectId: "todo-92284",
-    storageBucket: "todo-92284.appspot.com",
-    messagingSenderId: "1074837530857",
-    appId: "1:1074837530857:web:3ec8a57d719da12868a878",
-    measurementId: "G-SJCZ4PSJVZ",
+    apiKey: process.env.REACT_APP_APIKEY,
+    authDomain: process.env.REACT_APP_AUTHDOMAIN,
+    databaseURL: process.env.REACT_APP_DATABASEURL,
+    projectId: process.env.REACT_APP_PROJECTID,
+    storageBucket: process.env.REACT_APP_STORAGEBUCKET,
+    messagingSenderId: process.env.REACT_APP_MESSAGINGSENDERID,
+    appId: process.env.REACT_APP_APPID,
+    measurementId: process.env.REACT_APP_MEASUREMENTID,
 }
 firebase.initializeApp(config);
 firebase.analytics()

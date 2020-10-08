@@ -1,3 +1,18 @@
+# About
+
+This to do list is developed by eric from scratch.
+You can drag and drop to manipulate your tasks as will.  
+Searching is enabled for convinence purpose
+
+# Tech stack
+
+- React
+- Framer-motion
+- SCSS
+- React-router-
+- Redux
+- Firebase
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
