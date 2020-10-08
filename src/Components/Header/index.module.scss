@@ -1,3 +1,16 @@
+$color-bg: #212121;
+.headerContainer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 56px;
+  background: $color-bg;
+  color: white;
+  padding: 0 40px;
+  width: 100%;
+  padding-left: 100px;
+}
+
 .menu {
   font-size: 18px;
   display: flex;
@@ -19,5 +32,17 @@
     display: flex;
     align-items: center;
     justify-content: center;
+  }
+}
+
+$breakpoint-tablet: 600px;
+@media (max-width: $breakpoint-tablet) {
+  .headerContainer {
+    padding-left: 20px;
+  }
+  .menu {
+    .item {
+      margin-right: 0;
+    }
   }
 }

@@ -26,15 +26,8 @@ const Header = ({ history }) => {
             initial={{ y: -50 }}
             animate={{ y: 0 }}
             transition={{ type: "ease", delay: 0.5 }}
-
-            style={{
-                display: "flex",
-                alignItems: "center", justifyContent: "space-between",
-                height: "56px", "background": "#212121",
-                color: "white",
-                padding: "0 40px",
-                paddingLeft: "100px"
-            }}>
+            className={style.headerContainer}
+        >
             <span style={{ textDecoration: "none", cursor: "pointer" }} onClick={() => history.push("/")}   > <h3 style={{ color: "white", textDecoration: "none" }}>Ericode</h3> </span>
 
             <div className={style.menu}>

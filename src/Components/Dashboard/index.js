@@ -83,8 +83,8 @@ const Dashboard = () => {
                 <motion.div
                     variants={itemAni}
                     className={style.inputField}  >
-                    <h1 style={{ flexGrow: 1 }}>Board</h1>
-                    <div style={{ flexGrow: 3 }} >
+                    <h1 className={style.name} >Board</h1>
+                    <div className={style.flex3}>
                         <input className={style.searchBar} placeholder="Search here" type="text" />
                         <Button
                             style={{ marginLeft: "-100px" }}

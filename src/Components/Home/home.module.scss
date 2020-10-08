@@ -16,6 +16,10 @@
       margin: 50px 0;
     }
   }
+  .tryBt {
+    display: inline-block;
+    margin-left: 80px;
+  }
 
   .circleContainer {
     width: 230px;
@@ -38,5 +42,13 @@
         height: 80%;
       }
     }
+  }
+}
+
+$breakpoint-tablet: 600px;
+@media (max-width: $breakpoint-tablet) {
+  .container {
+    flex-direction: column;
+    padding: 20px;
   }
 }

@@ -72,8 +72,9 @@ const Home = ({ history }) => {
                 </Button>
                 <AnimatePresence>
                     {isLoggin && <motion.span
-                        style={{ display: "inline-block", marginLeft: "200px" }}
+
                         initial={{ opacity: 0, y: 50 }}
+                        className={style.tryBt}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ delay: 0.5 }}
                         exit={{ opacity: 0 }}
