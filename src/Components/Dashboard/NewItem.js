@@ -101,7 +101,7 @@ const NewItem = ({ toggle }) => {
                     style={{ margin: "20px  0 20px auto", display: "block" }}
                     variant="contained"
                     onClick={submitItem}
-                    color="primary">
+                    color="secondary">
                     Create </Button>
 
             </motion.div>

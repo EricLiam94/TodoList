@@ -8,7 +8,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 15px 40px;
+    padding: 8px 40px;
     border-radius: 10px;
 
     flex-wrap: wrap;
@@ -54,7 +54,7 @@
     display: flex;
     align-items: center;
     justify-content: space-around;
-    background: linear-gradient(145deg, #1e1e1e, #232323);
+    background: #1e1e1e;
     overflow-y: auto;
 
     &::-webkit-scrollbar-track {
@@ -148,11 +148,16 @@
   .icon {
     opacity: 0;
     transition: 0.5s;
+    cursor: pointer;
+    margin: 0 10px;
   }
 
   &:hover {
     .icon {
       opacity: 1;
+      &:hover {
+        color: rgba(87, 175, 87, 0.644);
+      }
     }
   }
 }
@@ -177,7 +182,7 @@
   justify-content: center;
   .itemContent {
     display: block;
-    background-color: #576574;
+    background-color: #03168154;
 
     border-radius: 20px;
     padding: 2%;
@@ -258,7 +263,7 @@
   font-size: 18px;
 }
 
-$breakpoint-tablet: 600px;
+$breakpoint-tablet: 650px;
 @media (max-width: $breakpoint-tablet) {
   .inputField {
     width: 100%;

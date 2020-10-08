@@ -1,13 +1,12 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import { useSelector } from "react-redux"
 import { motion, AnimatePresence, AnimateSharedLayout } from "framer-motion"
 import { auth, db } from "../../Firebase"
 import LoginPage from "../LoginPage"
 import style from "./dashboard.module.scss"
 import Button from '@material-ui/core/Button';
-import Card from "./Card"
 import NewItem from "./NewItem"
-
+import CardContainer from "./CardContainer"
 import { ToastContainer } from "react-toastify"
 const variants = {
     hidden: { opacity: 0 },
@@ -33,30 +32,41 @@ const Dashboard = () => {
     const isLoggin = useSelector(state => state.auth.isLoggin)
 
     const [isShow, setShow] = useState(false)
-    const [list, setList] = useState([])
-    const deleteItem = (id) => {
+    const [todo, setTodo] = useState([])
+    const [doing, setDoing] = useState([])
+    const [done, setDone] = useState([])
+    const [backlog, setBacklog] = useState([])
+    const [key, setkey] = useState("")
+
+    const inputRef = useRef(null)
+
+    const deleteItem = (type, id) => {
         console.log(id)
-        db.ref(`list/${auth.currentUser.uid}/todo/${id}`).remove();
+        db.ref(`list/${auth.currentUser.uid}/${type}/${id}`).remove();
     }
 
     useEffect(() => {
         const temp = () => {
             if (auth.currentUser) {
-                db.ref(`list/${auth.currentUser.uid}/todo/`)
-                    .on("value", snapshot => {
-                        let temp = []
-                        snapshot.forEach(snap => {
-                            temp.push(snap.val())
+                const listMap = {
+                    "todo": setTodo,
+                    "doing": setDoing,
+                    "done": setDone,
+                    "backlog": setBacklog
+                }
+                for (let type in listMap) {
+                    db.ref(`list/${auth.currentUser.uid}/${type}/`)
+                        .on("value", snapshot => {
+                            let temp = []
+                            snapshot.forEach(snap => {
+                                temp.push(snap.val())
+                            });
+                            listMap[type](temp)
                         });
-                        setList(temp)
-                    });
+                }
             }
-
         }
-
         temp()
-
-
     }, [isLoggin])
 
 
@@ -66,7 +76,14 @@ const Dashboard = () => {
         setShow(!isShow)
     }
 
+    const filter = (list) => (key && key.length > 0) ? list.filter((r) => JSON.stringify(r).toLocaleLowerCase().indexOf(key.toLocaleLowerCase()) !== -1) : list
 
+
+    const searchByKey = () => {
+        console.log("key", inputRef.current.value)
+        setkey(inputRef.current.value)
+
+    }
 
     return (
         <AnimateSharedLayout>
@@ -85,10 +102,13 @@ const Dashboard = () => {
                     className={style.inputField}  >
                     <h1 className={style.name} >Board</h1>
                     <div className={style.flex3}>
-                        <input className={style.searchBar} placeholder="Search here" type="text" />
+                        <input className={style.searchBar}
+                            ref={inputRef}
+                            placeholder="Search here" type="text" />
                         <Button
                             style={{ marginLeft: "-100px" }}
                             variant="contained"
+                            onClick={searchByKey}
                             color="primary">
                             Search </Button>
                     </div>
@@ -108,35 +128,10 @@ const Dashboard = () => {
                 <motion.div
                     variants={itemAni}
                     className={style.main}>
-                    <div className={style.mainContainer}>
-                        <h2> Todo</h2>
-                        <div className={style.content}>
-                            {list.map(item =>
-                                <Card title={item.title}
-                                    time={item.time}
-                                    key={item.id} priority={item.priority}
-                                    tags={item.tags} deleteItem={() => deleteItem(item.id)} />
-                            )}
-                        </div>
-                    </div>
-                    <div className={style.mainContainer} >
-                        <h2> Doing</h2>
-                        <div className={style.content}>
-
-                        </div>
-                    </div>
-                    <div className={style.mainContainer} >
-                        <h2> Done</h2>
-                        <div className={style.content}>
-
-                        </div>
-                    </div>
-                    <div className={style.mainContainer} >
-                        <h2> Backlog</h2>
-                        <div className={style.content}>
-
-                        </div>
-                    </div>
+                    <CardContainer type="todo" list={filter(todo)} deleteItem={deleteItem} />
+                    <CardContainer type="doing" list={filter(doing)} deleteItem={deleteItem} />
+                    <CardContainer type="done" list={filter(done)} deleteItem={deleteItem} />
+                    <CardContainer type="backlog" list={filter(backlog)} deleteItem={deleteItem} />
                 </motion.div>
                 <AnimatePresence >
                     {isShow ? <NewItem toggle={toggle} /> : null}

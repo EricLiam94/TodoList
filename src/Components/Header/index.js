@@ -12,7 +12,7 @@ const Header = ({ history }) => {
     const dispatch = useDispatch()
     useEffect(() => {
         firebase.auth().onAuthStateChanged((user) => {
-            console.log(user)
+            // console.log(user)
             dispatch(setUser(user))
         })
     })
